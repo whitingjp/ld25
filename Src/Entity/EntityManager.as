@@ -35,6 +35,7 @@ package Src.Entity
       var i:int;
       for(i=0; i<entities.length; i++)
         entities[i].update();
+      doWrap();
       clearCollided();
       resolve();
       tileResolve();
@@ -50,6 +51,21 @@ package Src.Entity
     private function isAlive(element:*, index:int, arr:Array):Boolean
     {
       return element.alive;
+    }
+
+    private function doWrap():void
+    {
+      for(var i:int = 0; i < entities.length; i++)
+      {
+        if(entities[i].hasOwnProperty("collider"))
+        {
+          var mapWidth:int = game.tileMap.width * TileMap.tileWidth;
+          if(entities[i].collider.pos.x < 0)
+            entities[i].collider.pos.x += mapWidth;
+          if(entities[i].collider.pos.x >= mapWidth)
+            entities[i].collider.pos.x -= mapWidth;
+        }
+      }
     }
 
     private function clearCollided():void

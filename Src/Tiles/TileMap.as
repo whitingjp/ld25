@@ -91,10 +91,10 @@ package Src.Tiles
     
     public function getIndex(x:int, y:int):int
     {
-      while(x < 0) return -1;
-      while(x >= width) return -1;
-      while(y < 0) return -1;
-      while(y >= height) return -1;
+      while(x < 0) x += width;
+      while(x >= width) x -= width;
+      if(y < 0) return -1;
+      if(y >= height) return -1;
       return x+y*width;
     }
     

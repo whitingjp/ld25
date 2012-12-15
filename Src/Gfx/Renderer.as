@@ -71,8 +71,11 @@ package Src.Gfx
     public function drawSprite(spr:SpriteDef, x:int, y:int,
                                 xFrame:int=0, yFrame:int=0):void
     {
-      topBuffer.copyPixels(spriteSheet, spr.getRect(xFrame, yFrame), new Point(x,y));
-      bottomBuffer.copyPixels(spriteSheet, spr.getRect(xFrame, yFrame), new Point(x-width,y));
+      var rect:Rectangle = spr.getRect(xFrame, yFrame);
+      topBuffer.copyPixels(spriteSheet, rect, new Point(x,y));
+      bottomBuffer.copyPixels(spriteSheet, rect, new Point(x-width,y));
+      if(x+rect.width > width*2)
+        drawSprite(spr, x-width*2, y, xFrame, yFrame);
     }
     
     public function drawRect(rect:Rectangle, fillCol:uint):void
