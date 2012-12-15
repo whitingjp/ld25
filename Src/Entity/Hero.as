@@ -52,6 +52,9 @@ package Src.Entity
 
         game.entityManager.push(spell);
       }
+      var paintRect:Rectangle = collider.worldRect.clone();
+      paintRect.inflate(5,5);
+      game.tileMap.paintRect(paintRect, 0);
     }    
     
     public override function render():void

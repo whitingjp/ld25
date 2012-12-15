@@ -280,5 +280,30 @@ package Src.Tiles
       t.yFrame += (group/16)*4;
       t.xFrame += (group-int(group/16)*16)*4;
     }
+
+
+    public function paintGroup(x:int, y:int, group:int):void
+    {
+      var t:Tile = getTile(x, y);
+      if(t.t != Tile.T_WALL)
+        return;
+      var tg:int = getTileGroup(t);
+      if(tg == group)
+        return;
+      t.xFrame = group*4;
+      autoTile(x, y);
+    }
+
+    public function paintRect(rect:Rectangle, group:int):void
+    {
+      for(var i:int=rect.left/tileWidth; i<rect.right/tileWidth; i++)
+      {
+        for(var j:int=rect.top/tileHeight; j<rect.bottom/tileHeight; j++)
+        {
+          paintGroup(i,j,group);
+        }
+      }
+    }
   }
+
 }
