@@ -22,6 +22,7 @@ package Src.Entity
       this.collider = collider;
       this.sprite = sprite;
       this.controller = controller;
+      this.anim = 0;
       reset();
     }
 
@@ -48,7 +49,7 @@ package Src.Entity
         collider.speed.x /= 1.7;
       else
       {
-        anim = anim + 0.1;
+        anim = anim + 0.05;
         while(anim > 1) anim--;
       }
 
