@@ -36,11 +36,25 @@ package Src.Entity
         alive = false;
         var worldRect:Rectangle = collider.worldRect;
         var centre:Point=new Point((worldRect.left+worldRect.right)/2, (worldRect.top+worldRect.bottom)/2);
-        var tileIndex:int = game.tileMap.getIndexFromPos(centre);
+        var offCentre:Point = centre.clone();
+        offCentre.x += collider.speed.x * 10;
+        var tileIndex:int = game.tileMap.getIndexFromPos(offCentre);
         var xy:Point = game.tileMap.getXY(tileIndex);
         var tile:Tile = game.tileMap.getTileFromIndex(tileIndex);
-        tile.t = Tile.T_WALL;
-        tile.xFrame = 4;
+        if(game.tileMap.getTileGroup(game.tileMap.getTileAtPos(offCentre)) == 1)
+        {                    
+          tileIndex = game.tileMap.getIndexFromPos(centre);
+          xy = game.tileMap.getXY(tileIndex);
+          tile = game.tileMap.getTileFromIndex(tileIndex);
+
+          tile.t = Tile.T_WALL;
+          tile.xFrame = 4;
+        } else
+        {
+          tile.t = Tile.T_NONE;
+          tile.xFrame = 0;
+          tile.yFrame = 0;
+        }
         game.tileMap.autoTileSet(xy.x, xy.y);
         return;
       }
