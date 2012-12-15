@@ -100,6 +100,8 @@ package Src.Entity
       {
         if(!entities[i].hasOwnProperty("collider"))
           continue;
+        if(entities[i].collider == collider)
+          continue;
         if(!entities[i].collider.resolve)
           continue;
         var wi:Rectangle = entities[i].collider.worldRect;

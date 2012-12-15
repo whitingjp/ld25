@@ -11,7 +11,7 @@ package Src.Entity
   {
     private var collider:CCollider;
     public var sprite:CSprite;
-    private var controller:CController;
+    public var controller:CController;
     private var e:Entity;
     public var isLeft:Boolean;
     public var anim:Number;

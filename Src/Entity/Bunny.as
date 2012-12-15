@@ -13,17 +13,16 @@ package Src.Entity
     public var collider:CCollider;
     public var platformer:CPlatformer;
     public var controller:CGrazeController;
-    public var rabbitSprite:CSprite;
+    public var sprite:CSprite;
     public var darkSprite:CSprite;
 
     public function Bunny(pos:Point)
     {
-      rabbitSprite = new CSprite(this, new SpriteDef(20,70,10,10,2,2));
-      darkSprite = new CSprite(this, new SpriteDef(0,70,10,10,2,2));
+      sprite = new CSprite(this, new SpriteDef(20,70,10,10,2,2));
       collider = new CCollider(this);
       collider.rect = new Rectangle(0,0,10,9);
       controller = new CGrazeController(this, collider);
-      platformer = new CPlatformer(this, collider, rabbitSprite, controller);
+      platformer = new CPlatformer(this, collider, sprite, controller);
       controller.platformer = platformer;
       reset();
       collider.pos = pos;
@@ -37,10 +36,9 @@ package Src.Entity
 
     public override function doSpell():Boolean
     {
-      if(platformer.sprite == darkSprite)
-        return false;
-      
-      platformer.sprite = darkSprite;
+      // demon bunny
+      alive = false;
+      game.entityManager.push(new DemonBunny(collider, controller));
       return true;
     }
 
