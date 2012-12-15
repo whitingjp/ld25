@@ -13,8 +13,8 @@ package Src.Entity
     public var collider:CCollider;
     public var platformer:CPlatformer;
     public var controller:CGrazeController;
-    var rabbitSprite:CSprite;
-    var darkSprite:CSprite;
+    public var rabbitSprite:CSprite;
+    public var darkSprite:CSprite;
 
     public function Bunny(pos:Point)
     {
