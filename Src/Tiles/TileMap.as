@@ -30,11 +30,15 @@ package Src.Tiles
     public var sprites:Array;
     
     public var game:Game;
+
+    private var filledTile:Tile;
     
     public function TileMap(game:Game)
     {
-      reset(40,10);
+      reset(32,6);
       this.game = game;
+      filledTile = new Tile();
+      filledTile.t = Tile.T_WALL;
     }
     
     public function reset(width:int, height:int):void
@@ -85,10 +89,10 @@ package Src.Tiles
     
     public function getIndex(x:int, y:int):int
     {
-      while(x < 0) x+=width;
-      while(x >= width) x-=width;
-      while(y < 0) y+=height;
-      while(y >= height) y-=height;
+      while(x < 0) return -1;
+      while(x >= width) return -1;
+      while(y < 0) return -1;
+      while(y >= height) return -1;
       return x+y*width;
     }
     
@@ -106,12 +110,20 @@ package Src.Tiles
         
     public function getTile(x:int, y:int):Tile
     {
-      return getTileFromIndex(getIndex(x,y));
+      var i:int = getIndex(x, y);
+      if(i == -1)
+        return filledTile;
+      else
+        return getTileFromIndex(getIndex(x,y));
     }
     
     public function getTileAtPos(p:Point):Tile
     {
-      return getTileFromIndex(getIndexFromPos(p));
+      var i:int = getIndexFromPos(p);
+      if(i == -1)
+        return filledTile;
+      else
+        return getTileFromIndex(i);
     }
 
     public function getXY(i:int):Point

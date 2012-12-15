@@ -24,7 +24,7 @@ package Src.Gfx
 
     // colour to use to clear backbuffer with
     public var clearColor:uint = 0xfffcfdd9;
-    public var bottomClearColor:uint = 0xffd9dafd;
+    public var bottomClearColor:uint = 0xffdffdce;
     
     // background
     public var bitmap:Bitmap;
