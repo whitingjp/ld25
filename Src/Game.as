@@ -85,17 +85,17 @@ package Src
     {
       renderer.update();
       entityManager.update();
-      if(gameState == STATE_FE)
+      if(State == STATE_FE)
         frontEnd.update();
-      if(gameState == STATE_EDITING)
+      if(State == STATE_EDITING)
         tileEditor.update();
         
       if(input.keyPressedDictionary[Input.KEY_E])
       {
-        if(gameState == STATE_GAME)
-          changeState(STATE_EDITING);
+        if(State == STATE_GAME)
+          State = STATE_EDITING;
         else
-          changeState(STATE_GAME);
+          State = STATE_GAME;
         resetEntities();
       }
         
@@ -108,7 +108,7 @@ package Src
     private function resetEntities():void
     {
       entityManager.reset();      
-      if(gameState == STATE_GAME)
+      if(State == STATE_GAME)
         tileMap.spawnEntities();
     }
 
@@ -119,12 +119,12 @@ package Src
       //renderer.setCamera(camera);
       tileMap.render();
       entityManager.render();
-      if(gameState == STATE_EDITING)
+      if(State == STATE_EDITING)
         tileEditor.renderWithCam();
       //renderer.setCamera();
-      if(gameState == STATE_EDITING)
+      if(State == STATE_EDITING)
         tileEditor.renderWithoutCam(); 
-      if(gameState == STATE_FE)
+      if(State == STATE_FE)
         frontEnd.render();
 
       /*
@@ -158,12 +158,12 @@ package Src
       }
     }
 
-    public function getState():int
+    public function get State():int
     {
       return gameState;
     }
 
-    public function changeState(state:int):void
+    public function set State(state:int):void
     {
       gameState = state;
     }

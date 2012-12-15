@@ -82,6 +82,8 @@ package Src.Tiles
         var y:int = i/width;
         var x:int = i-(y*width);
         var tile:Tile = getTile(x,y);
+        if(tile.t == Tile.T_WALL && game.State != Game.STATE_EDITING)
+          return;
         var spr:SpriteDef = sprites[tile.t];  
         game.renderer.drawSprite(spr, x*tileWidth, y*tileHeight, tile.xFrame, tile.yFrame);
       }
