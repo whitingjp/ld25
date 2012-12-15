@@ -42,10 +42,8 @@ package Src
     public var tileEditor:TileEditor;
     public var frontEnd:Frontend;
 
-    /*
-    [Embed(source="../level/test.lev", mimeType="application/octet-stream")]
-    public static const TestLevelClass: Class;
-    */
+    [Embed(source="../level/level.lev", mimeType="application/octet-stream")]
+    public static const Level1Class: Class;
 
     public function Game()
     {
@@ -56,7 +54,7 @@ package Src
       tileMap = new TileMap(this);      
       frontEnd = new Frontend(this);
 
-      //tileMap.unpack(new TestLevelClass as ByteArray);
+      tileMap.unpack(new Level1Class as ByteArray);
     }
 
     public function init(w:int, h:int, pixelSize:int, targetFps:int, stage:Stage):void
