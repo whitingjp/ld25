@@ -34,7 +34,6 @@ package Src.Entity
     public override function update():void
     {
       platformer.update();
-      //game.camera.setTarget(collider.pos);
     }    
     
     public override function render():void
