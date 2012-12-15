@@ -12,6 +12,8 @@ package Src.Entity
     private var subMoves:int;
     public var game:Game;
 
+    public var pushArray:Array;
+
     public function EntityManager(game:Game, subMoves:int)
     {      
       this.game = game;
@@ -22,12 +24,13 @@ package Src.Entity
     public function reset():void
     {
       entities = new Array();
+      pushArray = new Array();
     }
 
     public function push(entity:Entity):void
     {
       entity.setManager(this);
-      entities.push(entity);
+      pushArray.push(entity);
     }
 
     public function update():void
@@ -45,6 +48,8 @@ package Src.Entity
       tileResolve(false);
       resolve();
       entities = entities.filter(isAlive);
+      while(pushArray.length > 0)
+        entities.push(pushArray.pop());
     }
 
     public function render():void
@@ -93,24 +98,22 @@ package Src.Entity
       }
     }
 
-    public function getColliding(collider:CCollider):Entity
+    public function getColliding(rect:Rectangle):Array
     {
+      var a:Array = new Array();
       var i:int;
       for(i = 0; i < entities.length; i++)
-      {
+      {        
         if(!entities[i].hasOwnProperty("collider"))
-          continue;
-        if(entities[i].collider == collider)
           continue;
         if(!entities[i].collider.resolve)
           continue;
         var wi:Rectangle = entities[i].collider.worldRect;
-        var wj:Rectangle = collider.worldRect;
-        if(!wi.intersects(wj))
+        if(!wi.intersects(rect))
           continue;
-        return entities[i];
+        a.push(entities[i]);
       }
-      return null;
+      return a;
     }
 
     private function resolve():Boolean

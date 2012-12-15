@@ -35,10 +35,10 @@ package Src.Entity
         alive = false;
       if(lifeTimer < 0)
         alive = false;
-      var colliding:Entity = game.entityManager.getColliding(collider);
-      if(colliding != null)
+      var colliding:Array = game.entityManager.getColliding(collider.worldRect);
+      for(var i:int=0; i<colliding.length; i++)
       {
-        if(colliding.doSpell())
+        if(colliding[i].doSpell())
           alive = false;
       }
     }    

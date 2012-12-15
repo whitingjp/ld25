@@ -41,12 +41,14 @@ package Src.Entity
     public override function update():void
     { 
       platformer.update();
-      var e:Entity = game.entityManager.getColliding(collider);
-      if(e != null && !(e is DemonBunny))
+      var colliding:Array = game.entityManager.getColliding(collider.worldRect);
+      for(var i:int=0; i<colliding.length; i++)
       {
+        if(colliding[i] is DemonBunny || colliding[i] is Spell)
+          continue;
         platformer.controller = nullController;
-        e.alive = false;
-        captured = e;
+        colliding[i].alive = false;
+        captured = colliding[i];
         eatTimer = 1;
       }
       if(eatTimer >= 0)

@@ -44,7 +44,7 @@ package Src.Entity
       if(controller.doAction)
       {
         var pos:Point = collider.pos.clone();
-        pos.x += platformer.isLeft ? -5 : 9;
+        pos.x += platformer.isLeft ? -6 : 10;
         pos.y += 4;
         var spell:Spell = new Spell(pos, platformer.isLeft);
 
