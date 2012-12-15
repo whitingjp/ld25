@@ -31,9 +31,25 @@ package Src.Entity
       collider.speed = new Point(0,0);
     }
 
+    public override function doSpell():Boolean
+    {
+      // well that was silly
+      alive = false;
+      game.entityManager.push(new Newt(collider, controller, false));
+      return true;
+    }
     public override function update():void
     {
       platformer.update();
+      if(controller.doAction)
+      {
+        var pos:Point = collider.pos.clone();
+        pos.x += platformer.isLeft ? -5 : 9;
+        pos.y += 4;
+        var spell:Spell = new Spell(pos, platformer.isLeft);
+
+        game.entityManager.push(spell);
+      }
     }    
     
     public override function render():void

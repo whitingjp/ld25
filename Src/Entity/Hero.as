@@ -16,10 +16,10 @@ package Src.Entity
 
     public function Hero(pos:Point)
     {
-      var sprite:CSprite = new CSprite(this, new SpriteDef(20,50,10,10,2,2));
-      controller = new CController();
+      var sprite:CSprite = new CSprite(this, new SpriteDef(20,50,10,10,2,2));      
       collider = new CCollider(this);
       collider.rect = new Rectangle(0,0,10,9);
+      controller = new CGrazeController(this, collider);
       platformer = new CPlatformer(this, collider, sprite, controller);      
       reset();
       collider.pos = pos;
@@ -30,6 +30,15 @@ package Src.Entity
       collider.pos = new Point(0,0);
       collider.speed = new Point(0,0);
     }
+
+    public override function doSpell():Boolean
+    {
+      // she turned me into a newt
+      alive = false;
+      game.entityManager.push(new Newt(collider, controller, true));
+      return true;
+    }
+
 
     public override function update():void
     {

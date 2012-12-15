@@ -15,6 +15,7 @@ package Src.Entity
     private var e:Entity;
     public var isLeft:Boolean;
     public var anim:Number;
+    public var runSpeed:Number;
 
     public function CPlatformer(e:Entity, collider:CCollider, sprite:CSprite, controller:CController)
     {
@@ -23,6 +24,7 @@ package Src.Entity
       this.sprite = sprite;
       this.controller = controller;
       this.anim = 0;
+      this.runSpeed = 1;
       reset();
     }
 
@@ -36,14 +38,14 @@ package Src.Entity
       if(controller.goLeft)
       {
         collider.speed.x -= 0.3;
-        if(collider.speed.x < -1)
-          collider.speed.x = -1;
+        if(collider.speed.x < -runSpeed)
+          collider.speed.x = -runSpeed;
       }
       if(controller.goRight)
       {
         collider.speed.x += 0.3;
-        if(collider.speed.x > 1)
-          collider.speed.x = 1;
+        if(collider.speed.x > runSpeed)
+          collider.speed.x = runSpeed;
       }
       if(!controller.goLeft && !controller.goRight)
         collider.speed.x /= 1.7;
