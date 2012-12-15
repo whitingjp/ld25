@@ -26,7 +26,7 @@ package Src.Entity
       this.e = e;
       
       speed = new Point(0,0);
-      rect = new Rectangle(0,0,8,8);
+      rect = new Rectangle(0,0,10,10);
       resolve = true;
       collided = false;      
       elasticity = 0;
