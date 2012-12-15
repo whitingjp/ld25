@@ -28,9 +28,9 @@ package Src.Tiles
       selected = new Tile();            
       pallete = new TileMap(game); 
       pallete.reset(20, 20); // These 20's are just guesses
-      var y:int=0;
+      var x:int=0;
       for(var i:int=0; i<Tile.T_MAX; i++)
-        y = fillOutPallete(i, 0, y);      
+        x = fillOutPallete(i, x, 0);      
     }
   
     private function fillOutPallete(t:int, x:int, y:int):int
@@ -47,7 +47,7 @@ package Src.Tiles
           pallete.setTile(x+i, y+j, tile);
         }
       }
-      return y+sprite.yFrames;
+      return x+sprite.xFrames;
     }
     
     public function getTileGroup(t:Tile):int
@@ -128,17 +128,11 @@ package Src.Tiles
 
     public function getOffsetMouse():Point
     {
-      var offset:Point = game.camera.pos;
       var mousePos:Point = game.input.mousePos.clone();
       if(mousePos.y > game.renderer.height/2)
       {
         mousePos.y -= game.renderer.height/2;
         mousePos.x += game.renderer.width;
-      }
-      if(!inPallete)
-      {
-        mousePos.x += offset.x;
-        mousePos.y += offset.y;
       }
       return mousePos;
     }

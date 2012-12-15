@@ -12,7 +12,7 @@ package Src.Tiles
 
   public class TileMap
   {  
-    private static const OBJ_START:int=0;
+    private static const OBJ_WITCH:int=1;
   
     public static var tileWidth:int=10;
     public static var tileHeight:int=10;
@@ -49,7 +49,7 @@ package Src.Tiles
       sprites = new Array();
       sprites[Tile.T_NONE] = new SpriteDef(80,0,10,10,4,3);
       sprites[Tile.T_WALL] = new SpriteDef(0,0,10,10,8,4);
-      sprites[Tile.T_ENTITY] = new SpriteDef(32,0,16,16,1,1);
+      sprites[Tile.T_ENTITY] = new SpriteDef(0,40,10,10,4,1);
       
       tiles = new Array();
       for(var i:int=0; i<width*height; i++)
@@ -68,8 +68,8 @@ package Src.Tiles
         if(tiles[i].t == Tile.T_ENTITY)
         switch(tiles[i].xFrame)
         {
-          case OBJ_START:
-            game.entityManager.push(new Platformer(p));
+          case OBJ_WITCH:
+            game.entityManager.push(new Witch(p));
             break;
         }
       }

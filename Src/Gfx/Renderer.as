@@ -32,8 +32,6 @@ package Src.Gfx
     private var fadeSpeed:Number;
     private var fade:Number;
     private var fadeCol:uint;
-    
-    public var camera:Camera;
 
     public function init(width:int, height:int, pixelSize:int):void
     {
@@ -53,7 +51,6 @@ package Src.Gfx
       fade = 0;
       fadeSpeed = 0.005;
       fadeCol = 0xff000000;
-      camera = null;
     }
 
     public function cls():void
@@ -74,22 +71,12 @@ package Src.Gfx
     public function drawSprite(spr:SpriteDef, x:int, y:int,
                                 xFrame:int=0, yFrame:int=0):void
     {
-      if(camera)
-      {
-        x -= camera.pos.x;
-        y -= camera.pos.y;
-      }
       topBuffer.copyPixels(spriteSheet, spr.getRect(xFrame, yFrame), new Point(x,y));
       bottomBuffer.copyPixels(spriteSheet, spr.getRect(xFrame, yFrame), new Point(x-width,y));
     }
     
     public function drawRect(rect:Rectangle, fillCol:uint):void
     {
-      if(camera)
-      {
-        rect.x -= camera.pos.x;
-        rect.y -= camera.pos.y;
-      }
       topBuffer.fillRect(rect, fillCol);
       rect.x -= width;
       bottomBuffer.fillRect(rect, fillCol);
@@ -97,12 +84,6 @@ package Src.Gfx
 
     public function drawHollowRect(rect:Rectangle, fillCol:uint):void
     {
-      if(camera)
-      {
-        rect.x -= camera.pos.x;
-        rect.y -= camera.pos.y;
-      }
-
       topBuffer.fillRect(new Rectangle(rect.x, rect.y, rect.width, 1), fillCol);
       topBuffer.fillRect(new Rectangle(rect.x+rect.width-1, rect.y, 1, rect.height), fillCol);
       topBuffer.fillRect(new Rectangle(rect.x, rect.y+rect.height-1, rect.width, 1), fillCol);
@@ -119,11 +100,6 @@ package Src.Gfx
 
     public function drawSpriteText(str:String, x:int, y:int):void
     {
-      if(camera)
-      {
-        x -= camera.pos.x;
-        y -= camera.pos.y;
-      }
       // If I want to use this I'll have to draw a font!
       /*str = str.toUpperCase();
       var i:int;
@@ -151,11 +127,6 @@ package Src.Gfx
           drawSprite(sprite, x, y, frame);
         x += 8;
       }*/
-    }
-    
-    public function setCamera(camera:Camera=null):void
-    {
-      this.camera = camera;
     }
 
     public function startFade(col:uint, speed:Number):void
