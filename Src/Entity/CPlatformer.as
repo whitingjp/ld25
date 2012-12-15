@@ -14,6 +14,7 @@ package Src.Entity
     private var controller:CController;
     private var e:Entity;
     public var goingLeft:Boolean;
+    public var anim:Number;
 
     public function CPlatformer(e:Entity, collider:CCollider, sprite:CSprite, controller:CController)
     {
@@ -45,6 +46,11 @@ package Src.Entity
       }
       if(!controller.goLeft && !controller.goRight)
         collider.speed.x /= 1.7;
+      else
+      {
+        anim = anim + 0.1;
+        while(anim > 1) anim--;
+      }
 
       if(controller.goLeft && ! controller.goRight)
         goingLeft = true;
@@ -58,9 +64,11 @@ package Src.Entity
       floorRect.offset(0,2);
       floorRect.inflate(-2,0);
       var col:int = e.game.tileMap.getColAtRect(floorRect);
-      if(col & CCollider.COL_SOLID && controller.goUp)
+      if(col & CCollider.COL_SOLID)
       {
-        collider.speed.y -= 5;
+        collider.speed.y = 0;
+        if(controller.goUp)
+          collider.speed.y = -2;
       }
       collider.speed.y += 0.2;
       if(collider.speed.y > 2)
@@ -79,6 +87,11 @@ package Src.Entity
     {
       if(pos == null)
         pos = collider.pos;
+      sprite.frame.x = anim*sprite.def.xFrames;
+      if(goingLeft)
+        sprite.frame.y = 1;
+      else
+        sprite.frame.y = 0;        
       sprite.render(pos);
     }
   }

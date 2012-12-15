@@ -13,11 +13,10 @@ package Src.Entity
     public var collider:CCollider;
     public var platformer:CPlatformer;
     public var controller:CController;
-    public var sprite:CSprite;
 
     public function Witch(pos:Point)
     {
-      sprite = new CSprite(this, new SpriteDef(0,50,10,10));
+      var sprite:CSprite = new CSprite(this, new SpriteDef(0,50,10,10,2,2));
       controller = new CPlayerController(this);
       collider = new CCollider(this);
       platformer = new CPlatformer(this, collider, sprite, controller);      
@@ -27,7 +26,6 @@ package Src.Entity
 
     public function reset():void
     {
-      sprite.frame.x = 0;
       collider.pos = new Point(0,0);
       collider.speed = new Point(0,0);
     }
@@ -40,7 +38,7 @@ package Src.Entity
     
     public override function render():void
     {
-      sprite.render(collider.pos);
+      platformer.render(collider.pos);
     }
   }
 }

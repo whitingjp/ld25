@@ -41,7 +41,6 @@ package Src
     public var tileMap:TileMap;
     public var tileEditor:TileEditor;
     public var frontEnd:Frontend;
-    public var camera:Camera;
 
     /*
     [Embed(source="../level/test.lev", mimeType="application/octet-stream")]
@@ -56,7 +55,6 @@ package Src
       soundManager = new SoundManager();
       tileMap = new TileMap(this);      
       frontEnd = new Frontend(this);
-      camera = new Camera(this);
 
       //tileMap.unpack(new TestLevelClass as ByteArray);
     }
@@ -85,7 +83,6 @@ package Src
 
     private function update():void
     {
-      camera.update();
       renderer.update();
       entityManager.update();
       if(gameState == STATE_FE)
@@ -119,12 +116,12 @@ package Src
     {
       renderer.cls();
       
-      renderer.setCamera(camera);
+      //renderer.setCamera(camera);
       tileMap.render();
       entityManager.render();
       if(gameState == STATE_EDITING)
         tileEditor.renderWithCam();
-      renderer.setCamera();
+      //renderer.setCamera();
       if(gameState == STATE_EDITING)
         tileEditor.renderWithoutCam(); 
       if(gameState == STATE_FE)
