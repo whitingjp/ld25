@@ -33,7 +33,7 @@ package Src.Entity
     { 
       platformer.update();
       var e:Entity = game.entityManager.getColliding(collider);
-      if(e != null)
+      if(e != null && !(e is Witch))
       {
         platformer.controller = nullController;
         e.alive = false;
