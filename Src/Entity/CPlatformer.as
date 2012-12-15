@@ -15,6 +15,7 @@ package Src.Entity
     private var e:Entity;
     public var goingLeft:Boolean;
     public var anim:Number;
+    public var predictedY:Number;
 
     public function CPlatformer(e:Entity, collider:CCollider, sprite:CSprite, controller:CController)
     {
@@ -23,6 +24,7 @@ package Src.Entity
       this.sprite = sprite;
       this.controller = controller;
       this.anim = 0;
+      predictedY = -1000;
       reset();
     }
 
@@ -61,11 +63,8 @@ package Src.Entity
 
     public function updateJump():void
     {
-      var floorRect:Rectangle = collider.worldRect;
-      floorRect.offset(0,2);
-      floorRect.inflate(-2,0);
-      var col:int = e.game.tileMap.getColAtRect(floorRect);
-      if(col & CCollider.COL_SOLID)
+      var canJump:Boolean = collider.pos.y < predictedY; // something is below us, holding us up
+      if(canJump)
       {
         collider.speed.y = 0;
         if(controller.goUp)
@@ -77,11 +76,14 @@ package Src.Entity
     }
 
     public function update():void
-    {      
+    {
+      
+
       controller.update(); 
       updateRun();
-      updateJump();
+      updateJump();      
       collider.update();
+      predictedY = collider.pos.y;
     }
  
     public function render(pos:Point=null):void
