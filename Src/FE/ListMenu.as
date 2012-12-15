@@ -58,8 +58,8 @@ package Src.FE
         var offsets:Point = new Point(0,0);
         if(i==selectedItem)
           offsets = new Point(Math.random()*3-1, Math.random()*3-1);
-        renderer.drawFontText(items[i], pos.x+offsets.x, y+offsets.y,
-                              false, 0xffffffff, siz);
+        //renderer.drawFontText(items[i], pos.x+offsets.x, y+offsets.y,
+        //                    false, 0xffffffff, siz);
         y += siz;
       }
     }

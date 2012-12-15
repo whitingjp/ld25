@@ -130,10 +130,15 @@ package Src.Tiles
     {
       var offset:Point = game.camera.pos;
       var mousePos:Point = game.input.mousePos.clone();
+      if(mousePos.y > game.renderer.height/2)
+      {
+        mousePos.y -= game.renderer.height/2;
+        mousePos.x += game.renderer.width;
+      }
       if(!inPallete)
       {
         mousePos.x += offset.x;
-        mousePos.y += offset.y;      
+        mousePos.y += offset.y;
       }
       return mousePos;
     }

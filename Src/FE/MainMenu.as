@@ -37,8 +37,6 @@ package Src.FE
 
     public override function render():void
     {
-      game.renderer.drawFontText("TEST", game.renderer.width/2, 0, true,
-                                 0xffffffff, 25);
       listMenu.render();
     }
   }

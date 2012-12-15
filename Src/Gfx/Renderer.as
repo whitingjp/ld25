@@ -19,10 +19,12 @@ package Src.Gfx
     public var spriteSheet:BitmapData;
 
     // double buffer
-    public var backBuffer:BitmapData;
+    public var topBuffer:BitmapData;
+    public var bottomBuffer:BitmapData;
 
     // colour to use to clear backbuffer with
-    public var clearColor:uint = 0xff0a0d0d;
+    public var clearColor:uint = 0xfffcfdd9;
+    public var bottomClearColor:uint = 0xffd9dafd;
     
     // background
     public var bitmap:Bitmap;
@@ -45,7 +47,8 @@ package Src.Gfx
       spriteSheetSrc = new spriteSheetClass() as BitmapAsset;
       spriteSheet = spriteSheetSrc.bitmapData;
 
-      backBuffer = new BitmapData(width, height, false);
+      topBuffer = new BitmapData(width, height/2, false);
+      bottomBuffer = new BitmapData(width, height/2, false);
 
       fade = 0;
       fadeSpeed = 0.005;
@@ -54,14 +57,16 @@ package Src.Gfx
     }
 
     public function cls():void
-    {      
-      drawRect(backBuffer.rect, clearColor);
+    {
+      drawRect(new Rectangle(0,0, width*2, height), clearColor);
     }
 
     public function flip():void
     {
       bitmap.bitmapData.fillRect( bitmap.bitmapData.rect, clearColor );
-      bitmap.bitmapData.copyPixels(backBuffer, backBuffer.rect, new Point(0,0));
+      bitmap.bitmapData.copyPixels(topBuffer, topBuffer.rect, new Point(0,0));
+      swapColour(bottomBuffer, clearColor, bottomClearColor);
+      bitmap.bitmapData.copyPixels(bottomBuffer, bottomBuffer.rect, new Point(0,height/2));
     
       // TODO handle fade again
     }
@@ -74,7 +79,8 @@ package Src.Gfx
         x -= camera.pos.x;
         y -= camera.pos.y;
       }
-      backBuffer.copyPixels(spriteSheet, spr.getRect(xFrame, yFrame), new Point(x,y));
+      topBuffer.copyPixels(spriteSheet, spr.getRect(xFrame, yFrame), new Point(x,y));
+      bottomBuffer.copyPixels(spriteSheet, spr.getRect(xFrame, yFrame), new Point(x-width,y));
     }
     
     public function drawRect(rect:Rectangle, fillCol:uint):void
@@ -84,7 +90,9 @@ package Src.Gfx
         rect.x -= camera.pos.x;
         rect.y -= camera.pos.y;
       }
-      backBuffer.fillRect(rect, fillCol);
+      topBuffer.fillRect(rect, fillCol);
+      rect.x -= width;
+      bottomBuffer.fillRect(rect, fillCol);
     }
 
     public function drawHollowRect(rect:Rectangle, fillCol:uint):void
@@ -95,10 +103,18 @@ package Src.Gfx
         rect.y -= camera.pos.y;
       }
 
-      backBuffer.fillRect(new Rectangle(rect.x, rect.y, rect.width, 1), fillCol);
-      backBuffer.fillRect(new Rectangle(rect.x+rect.width-1, rect.y, 1, rect.height), fillCol);
-      backBuffer.fillRect(new Rectangle(rect.x, rect.y+rect.height-1, rect.width, 1), fillCol);
-      backBuffer.fillRect(new Rectangle(rect.x, rect.y, 1, rect.height), fillCol);
+      topBuffer.fillRect(new Rectangle(rect.x, rect.y, rect.width, 1), fillCol);
+      topBuffer.fillRect(new Rectangle(rect.x+rect.width-1, rect.y, 1, rect.height), fillCol);
+      topBuffer.fillRect(new Rectangle(rect.x, rect.y+rect.height-1, rect.width, 1), fillCol);
+      topBuffer.fillRect(new Rectangle(rect.x, rect.y, 1, rect.height), fillCol);
+
+      rect.x -= width;
+
+      bottomBuffer.fillRect(new Rectangle(rect.x, rect.y, rect.width, 1), fillCol);
+      bottomBuffer.fillRect(new Rectangle(rect.x+rect.width-1, rect.y, 1, rect.height), fillCol);
+      bottomBuffer.fillRect(new Rectangle(rect.x, rect.y+rect.height-1, rect.width, 1), fillCol);
+      bottomBuffer.fillRect(new Rectangle(rect.x, rect.y, 1, rect.height), fillCol);
+
     }
 
     public function drawSpriteText(str:String, x:int, y:int):void
@@ -136,39 +152,6 @@ package Src.Gfx
         x += 8;
       }*/
     }
-
-    public function drawFontText(str:String, x:int, y:int,
-                                 center:Boolean = false,
-                                 col:uint = 0xffffffff, sze:uint=20):void
-    {
-      if(camera)
-      {
-        x -= camera.pos.x;
-        y -= camera.pos.y;
-      }    
-      var txt:TextField;
-      var txtFormat:TextFormat;
-
-      txtFormat = new TextFormat();
-      txtFormat.size = sze;
-      txtFormat.bold = true;
-
-      txt = new TextField();
-      txt.autoSize = TextFieldAutoSize.LEFT;
-
-      txt.textColor = col;
-      txt.text = str;
-      txt.setTextFormat(txtFormat);
-
-      if(center)
-      {
-        x -= txt.textWidth/2;
-      }
-
-      var matrix:Matrix = new Matrix();
-      matrix.translate(x, y);
-      backBuffer.draw(txt, matrix);
-    }
     
     public function setCamera(camera:Camera=null):void
     {
@@ -188,7 +171,10 @@ package Src.Gfx
     public function colourMap(src:Array, dest:Array):void
     {
       for(var i:int=0; i<src.length; i++)
-        swapColour(backBuffer, src[i], dest[i]);
+      {
+        swapColour(topBuffer, src[i], dest[i]);
+        swapColour(bottomBuffer, src[i], dest[i]);
+      }
     }
 
     public function swapColour(image:BitmapData, source:uint, dest:uint):void
