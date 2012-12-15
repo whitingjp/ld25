@@ -79,11 +79,7 @@ package Src.Tiles
       if(!inPallete)
       {
         var p:Point = tileMap.getXY(index);
-        tileMap.autoTile(p.x, p.y);
-        tileMap.autoTile(p.x, p.y-1);
-        tileMap.autoTile(p.x+1, p.y);
-        tileMap.autoTile(p.x, p.y+1);
-        tileMap.autoTile(p.x-1, p.y);        
+        tileMap.autoTileSet(p.x, p.y);
       }
       
       if(game.input.keyPressedDictionary[Input.KEY_C])

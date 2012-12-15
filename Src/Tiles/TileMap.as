@@ -281,6 +281,15 @@ package Src.Tiles
       t.xFrame += (group-int(group/16)*16)*4;
     }
 
+    public function autoTileSet(x:int, y:int):void
+    {
+      autoTile(x, y);
+      autoTile(x, y-1);
+      autoTile(x+1, y);
+      autoTile(x, y+1);
+      autoTile(x-1, y);
+    }
+
 
     public function paintGroup(x:int, y:int, group:int):void
     {
