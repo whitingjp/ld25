@@ -60,6 +60,8 @@ package Src.Tiles
       var t:Tile = tileMap.getTile(x, y);
       if(t.t == Tile.T_ENTITY)
         return;
+      if(t.t == Tile.T_NONE)
+        return;
       var group:int = getTileGroup(t);
       var flags:int = 0;
 
