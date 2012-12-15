@@ -205,5 +205,80 @@ package Src.Tiles
       for(var i:int=0; i<tiles.length; i++)
         tiles[i].readFromByteArray(byteArray);
     }
+
+    
+    public function getTileGroup(t:Tile):int
+    {
+      return int(t.xFrame/4)+int(t.yFrame/4)*16;
+    }
+    
+    public function autoTile(x:int, y:int):void
+    {
+      var t:Tile = getTile(x, y);
+      if(t.t != Tile.T_WALL)
+        return;
+      var group:int = getTileGroup(t);
+      var flags:int = 0;
+
+      var checkTile:Tile;
+      checkTile = getTile(x,y-1);
+      if(checkTile.t == t.t) flags |= 1;
+      checkTile = getTile(x+1,y);
+      if(checkTile.t == t.t) flags |= 2;
+      checkTile = getTile(x,y+1);
+      if(checkTile.t == t.t) flags |= 4;
+      checkTile = getTile(x-1,y);
+      if(checkTile.t == t.t) flags |= 8;
+      
+      var allWall:Boolean = false;
+      switch(flags)
+      {
+        case  0: t.xFrame = 3; t.yFrame = 3; break;
+        case  1: t.xFrame = 3; t.yFrame = 2; break;
+        case  2: t.xFrame = 0; t.yFrame = 3; break;
+        case  3: t.xFrame = 0; t.yFrame = 2; break;
+        case  4: t.xFrame = 3; t.yFrame = 0; break;
+        case  5: t.xFrame = 3; t.yFrame = 1; break;
+        case  6: t.xFrame = 0; t.yFrame = 0; break;
+        case  7: t.xFrame = 0; t.yFrame = 1; break;
+        case  8: t.xFrame = 2; t.yFrame = 3; break;
+        case  9: t.xFrame = 2; t.yFrame = 2; break;
+        case 10: t.xFrame = 1; t.yFrame = 3; break;
+        case 11: t.xFrame = 1; t.yFrame = 2; break;
+        case 12: t.xFrame = 2; t.yFrame = 0; break;
+        case 13: t.xFrame = 2; t.yFrame = 1; break;
+        case 14: t.xFrame = 1; t.yFrame = 0; break;
+        case 15: allWall = true; break;
+      }
+      if(allWall)
+      {
+        // is it center or inner corner?
+        flags = 0;
+        checkTile = getTile(x+1,y-1);
+        if(checkTile.t == t.t) flags |= 1;
+        checkTile = getTile(x+1,y+1);
+        if(checkTile.t == t.t) flags |= 2;
+        checkTile = getTile(x-1,y+1);
+        if(checkTile.t == t.t) flags |= 4;
+        checkTile = getTile(x-1,y-1);
+        if(checkTile.t == t.t) flags |= 8;
+        switch(flags)
+        {
+          default: t.xFrame = 1; t.yFrame = 1; break;
+          /*
+          case 3:  t.xFrame = 5; t.yFrame = 3; break;
+          case 6:  t.xFrame = 4; t.yFrame = 2; break;
+          case 7:  t.xFrame = 5; t.yFrame = 1; break;
+          case 9:  t.xFrame = 4; t.yFrame = 3; break;
+          case 11: t.xFrame = 5; t.yFrame = 0; break;
+          case 12: t.xFrame = 5; t.yFrame = 2; break;
+          case 13: t.xFrame = 4; t.yFrame = 0; break;
+          case 14: t.xFrame = 4; t.yFrame = 1; break;
+          */
+        }
+      }
+      t.yFrame += (group/16)*4;
+      t.xFrame += (group-int(group/16)*16)*4;
+    }
   }
 }
