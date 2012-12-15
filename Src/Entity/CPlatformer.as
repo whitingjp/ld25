@@ -15,7 +15,6 @@ package Src.Entity
     private var e:Entity;
     public var goingLeft:Boolean;
     public var anim:Number;
-    public var predictedY:Number;
 
     public function CPlatformer(e:Entity, collider:CCollider, sprite:CSprite, controller:CController)
     {
@@ -24,7 +23,6 @@ package Src.Entity
       this.sprite = sprite;
       this.controller = controller;
       this.anim = 0;
-      predictedY = -1000;
       reset();
     }
 
@@ -63,27 +61,23 @@ package Src.Entity
 
     public function updateJump():void
     {
-      var canJump:Boolean = collider.pos.y < predictedY; // something is below us, holding us up
+      var canJump:Boolean = (collider.collided & 1) > 0;
       if(canJump)
       {
-        collider.speed.y = 0;
+        collider.speed.y = 1-0.3;
         if(controller.goUp)
-          collider.speed.y = -2;
+          collider.speed.y = -3;
       }
-      collider.speed.y += 0.2;
-      if(collider.speed.y > 2)
-        collider.speed.y = 2;
+      collider.speed.y += 0.3;
+      if(collider.speed.y > 3)
+        collider.speed.y = 3;
     }
 
     public function update():void
     {
-      
-
       controller.update(); 
       updateRun();
       updateJump();      
-      collider.update();
-      predictedY = collider.pos.y;
     }
  
     public function render(pos:Point=null):void

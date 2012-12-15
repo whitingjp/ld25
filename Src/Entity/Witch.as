@@ -19,6 +19,7 @@ package Src.Entity
       var sprite:CSprite = new CSprite(this, new SpriteDef(0,50,10,10,2,2));
       controller = new CPlayerController(this);
       collider = new CCollider(this);
+      collider.rect = new Rectangle(0,0,10,9);
       platformer = new CPlatformer(this, collider, sprite, controller);      
       reset();
       collider.pos = pos;
