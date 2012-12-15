@@ -18,6 +18,8 @@ package Src.Entity
     public var eatSprite:CSprite;
     public var eatTimer:Number = -1;
 
+    public var captured:Entity = null;
+
     public function DemonBunny(collider:CCollider, controller:CGrazeController)
     {
       this.collider = collider;
@@ -37,10 +39,12 @@ package Src.Entity
       {
         platformer.controller = nullController;
         e.alive = false;
-        eatTimer = 1; 
+        captured = e;
+        eatTimer = 1;
       }
       if(eatTimer >= 0)
       {
+        collider.speed.x = 0;
         eatTimer -= 0.05;
         if(eatTimer < 0)
         {
@@ -54,6 +58,7 @@ package Src.Entity
     {
       if(eatTimer >= 0)
       {
+        captured.render();
         eatSprite.frame.x = (1-eatTimer)*4;
         var renderPos:Point = collider.pos.clone();
         renderPos.y -= 10;
