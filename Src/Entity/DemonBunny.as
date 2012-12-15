@@ -33,7 +33,7 @@ package Src.Entity
     { 
       platformer.update();
       var e:Entity = game.entityManager.getColliding(collider);
-      if(e != null && !(e is Witch))
+      if(e != null && !(e is Witch) && !(e is DemonBunny))
       {
         platformer.controller = nullController;
         e.alive = false;
@@ -43,7 +43,10 @@ package Src.Entity
       {
         eatTimer -= 0.05;
         if(eatTimer < 0)
-          platformer.controller = controller;
+        {
+          game.entityManager.push(new Bunny(collider.pos));
+          alive = false;
+        }
       }
     }    
     
