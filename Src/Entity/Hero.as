@@ -19,7 +19,7 @@ package Src.Entity
       var sprite:CSprite = new CSprite(this, new SpriteDef(20,50,10,10,2,2));      
       collider = new CCollider(this);
       collider.rect = new Rectangle(0,0,10,9);
-      controller = new CGrazeController(this, collider);
+      controller = new CHeroController(this, collider);
       platformer = new CPlatformer(this, collider, sprite, controller);      
       reset();
       collider.pos = pos;
