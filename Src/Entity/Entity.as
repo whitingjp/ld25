@@ -27,5 +27,7 @@ package Src.Entity
 
     public function update():void {}
     public function render():void {}
+
+    public function doSpell():Boolean { return false; }
   }
 }

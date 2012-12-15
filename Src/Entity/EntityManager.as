@@ -93,6 +93,24 @@ package Src.Entity
       }
     }
 
+    public function getColliding(collider:CCollider):Entity
+    {
+      var i:int;
+      for(i = 0; i < entities.length; i++)
+      {
+        if(!entities[i].hasOwnProperty("collider"))
+          continue;
+        if(!entities[i].collider.resolve)
+          continue;
+        var wi:Rectangle = entities[i].collider.worldRect;
+        var wj:Rectangle = collider.worldRect;
+        if(!wi.intersects(wj))
+          continue;
+        return entities[i];
+      }
+      return null;
+    }
+
     private function resolve():Boolean
     {
       var i:int;
@@ -104,11 +122,11 @@ package Src.Entity
         {
           if(!entities[i].hasOwnProperty("collider") || !entities[j].hasOwnProperty("collider"))
             continue;
+          if(!entities[i].collider.resolve || !entities[j].collider.resolve)
+            continue;
           var wi:Rectangle = entities[i].collider.worldRect;
           var wj:Rectangle = entities[j].collider.worldRect;
           if(!wi.intersects(wj))
-            continue;
-          if(!entities[i].collider.resolve || !entities[j].collider.resolve)
             continue;
           anyOverlaps = true;
           var minmove:Point = minMove(wi, wj);

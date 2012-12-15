@@ -13,14 +13,17 @@ package Src.Entity
     public var collider:CCollider;
     public var platformer:CPlatformer;
     public var controller:CGrazeController;
+    var rabbitSprite:CSprite;
+    var darkSprite:CSprite;
 
     public function Bunny(pos:Point)
     {
-      var sprite:CSprite = new CSprite(this, new SpriteDef(20,70,10,10,2,2));      
+      rabbitSprite = new CSprite(this, new SpriteDef(20,70,10,10,2,2));
+      darkSprite = new CSprite(this, new SpriteDef(0,70,10,10,2,2));
       collider = new CCollider(this);
       collider.rect = new Rectangle(0,0,10,9);
       controller = new CGrazeController(this, collider);
-      platformer = new CPlatformer(this, collider, sprite, controller);
+      platformer = new CPlatformer(this, collider, rabbitSprite, controller);
       controller.platformer = platformer;
       reset();
       collider.pos = pos;
@@ -30,6 +33,15 @@ package Src.Entity
     {
       collider.pos = new Point(0,0);
       collider.speed = new Point(0,0);
+    }
+
+    public override function doSpell():Boolean
+    {
+      if(platformer.sprite == darkSprite)
+        return false;
+      
+      platformer.sprite = darkSprite;
+      return true;
     }
 
     public override function update():void

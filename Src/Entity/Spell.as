@@ -35,7 +35,12 @@ package Src.Entity
         alive = false;
       if(lifeTimer < 0)
         alive = false;
-
+      var colliding:Entity = game.entityManager.getColliding(collider);
+      if(colliding != null)
+      {
+        if(colliding.doSpell())
+          alive = false;
+      }
     }    
     
     public override function render():void

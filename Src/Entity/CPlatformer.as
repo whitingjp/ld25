@@ -10,7 +10,7 @@ package Src.Entity
   public class CPlatformer
   {
     private var collider:CCollider;
-    private var sprite:CSprite;
+    public var sprite:CSprite;
     private var controller:CController;
     private var e:Entity;
     public var isLeft:Boolean;
