@@ -7,9 +7,10 @@ package Src.Entity
   public class CGrazeController extends CController
   {
     private var e:Entity;
-    private var aimingLeft:Boolean;
+    public var aimingLeft:Boolean;
     public var platformer:CPlatformer;
     private var collider:CCollider;
+    public var flipChance:Number = 0.01;
     public function CGrazeController(e:Entity, collider:CCollider)
     {
       this.e = e;
@@ -44,7 +45,7 @@ package Src.Entity
 
     public override function update():void
     {
-      if(Math.random() > 0.99)
+      if(Math.random() > 1-flipChance)
         this.aimingLeft = Math.random() > 0.5;
     }
   }

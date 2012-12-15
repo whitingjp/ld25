@@ -24,6 +24,7 @@ package Src.Entity
     {
       this.collider = collider;
       this.controller = controller;
+      controller.flipChance = 0.001;
       sprite = new CSprite(this, new SpriteDef(0,70,10,10,2,2));
       eatSprite = new CSprite(this, new SpriteDef(0,90,20,20,4,2));
       platformer = new CPlatformer(this, collider, sprite, controller);
@@ -31,11 +32,17 @@ package Src.Entity
       controller.platformer = platformer;
     }
 
+    public override function doSpell():Boolean
+    {
+      controller.aimingLeft = !controller.aimingLeft;
+      return true;
+    }
+
     public override function update():void
     { 
       platformer.update();
       var e:Entity = game.entityManager.getColliding(collider);
-      if(e != null && !(e is Witch) && !(e is DemonBunny))
+      if(e != null && !(e is DemonBunny))
       {
         platformer.controller = nullController;
         e.alive = false;
