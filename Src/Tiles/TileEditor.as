@@ -58,22 +58,20 @@ package Src.Tiles
     public function autoTile(x:int, y:int):void
     {
       var t:Tile = tileMap.getTile(x, y);
-      if(t.t == Tile.T_ENTITY)
-        return;
-      if(t.t == Tile.T_NONE)
+      if(t.t != Tile.T_WALL)
         return;
       var group:int = getTileGroup(t);
       var flags:int = 0;
 
       var checkTile:Tile;
       checkTile = tileMap.getTile(x,y-1);
-      if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 1;
+      if(checkTile.t == t.t) flags |= 1;
       checkTile = tileMap.getTile(x+1,y);
-      if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 2;
+      if(checkTile.t == t.t) flags |= 2;
       checkTile = tileMap.getTile(x,y+1);
-      if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 4;
+      if(checkTile.t == t.t) flags |= 4;
       checkTile = tileMap.getTile(x-1,y);
-      if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 8;
+      if(checkTile.t == t.t) flags |= 8;
       
       var allWall:Boolean = false;
       switch(flags)
@@ -100,13 +98,13 @@ package Src.Tiles
         // is it center or inner corner?
         flags = 0;
         checkTile = tileMap.getTile(x+1,y-1);
-        if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 1;
+        if(checkTile.t == t.t) flags |= 1;
         checkTile = tileMap.getTile(x+1,y+1);
-        if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 2;
+        if(checkTile.t == t.t) flags |= 2;
         checkTile = tileMap.getTile(x-1,y+1);
-        if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 4;
+        if(checkTile.t == t.t) flags |= 4;
         checkTile = tileMap.getTile(x-1,y-1);
-        if(checkTile.t == t.t && getTileGroup(checkTile) == group) flags |= 8;
+        if(checkTile.t == t.t) flags |= 8;
         switch(flags)
         {
           default: t.xFrame = 1; t.yFrame = 1; break;
@@ -152,7 +150,7 @@ package Src.Tiles
         if(inPallete) selected = pallete.getTileAtPos(mousePos);
         else selected = tileMap.getTileAtPos(mousePos);
       }
-      if(game.input.keyDownDictionary[Input.KEY_SHIFT] && !inPallete)
+      if(!inPallete)
       {
         var p:Point = tileMap.getXY(index);
         autoTile(p.x, p.y);

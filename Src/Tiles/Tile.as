@@ -11,12 +11,14 @@ package Src.Tiles
     public var t:int;
     public var xFrame:int;
     public var yFrame:int;
+    public var group:int;
     
     public function Tile()
     {
       t = T_NONE;
       xFrame = 0;
       yFrame = 0;
+      group = 0;
     }
     
     public function clone():Tile
