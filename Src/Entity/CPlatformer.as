@@ -13,7 +13,7 @@ package Src.Entity
     private var sprite:CSprite;
     private var controller:CController;
     private var e:Entity;
-    public var goingLeft:Boolean;
+    public var isLeft:Boolean;
     public var anim:Number;
 
     public function CPlatformer(e:Entity, collider:CCollider, sprite:CSprite, controller:CController)
@@ -28,7 +28,7 @@ package Src.Entity
 
     public function reset():void
     {
-      goingLeft = false;
+      isLeft = false;
     }
 
     public function updateRun():void
@@ -54,9 +54,9 @@ package Src.Entity
       }
 
       if(controller.goLeft && ! controller.goRight)
-        goingLeft = true;
+        isLeft = true;
       if(controller.goRight && ! controller.goLeft)
-        goingLeft = false;
+        isLeft = false;
     }
 
     public function updateJump():void
@@ -85,7 +85,7 @@ package Src.Entity
       if(pos == null)
         pos = collider.pos;
       sprite.frame.x = anim*sprite.def.xFrames;
-      if(goingLeft)
+      if(isLeft)
         sprite.frame.y = 1;
       else
         sprite.frame.y = 0;        
