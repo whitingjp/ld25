@@ -13,6 +13,7 @@ package Src.Tiles
   public class TileMap
   {  
     private static const OBJ_WITCH:int=1;
+    private static const OBJ_BUNNY:int=3;
   
     public static var tileWidth:int=10;
     public static var tileHeight:int=10;
@@ -71,6 +72,9 @@ package Src.Tiles
           case OBJ_WITCH:
             game.entityManager.push(new Witch(p));
             break;
+          case OBJ_BUNNY:
+            game.entityManager.push(new Bunny(p));
+            break;   
         }
       }
     }
