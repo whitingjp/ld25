@@ -54,7 +54,7 @@ package Src
       tileMap = new TileMap(this);      
       frontEnd = new Frontend(this);
 
-      //tileMap.unpack(new Level1Class as ByteArray);
+      tileMap.unpack(new Level1Class as ByteArray);
     }
 
     public function init(w:int, h:int, pixelSize:int, targetFps:int, stage:Stage):void
