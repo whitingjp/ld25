@@ -27,7 +27,7 @@ package Src.Entity
       this.collider = collider;
       collider.rect = new Rectangle(0,5,10,4);
       this.controller = controller;
-      platformer = new CPlatformer(this, collider, sprite, controller);
+      platformer = new CPlatformer(this, collider, sprite, controller, "newtJump");
       platformer.runSpeed = 0;
       timer = 1;
     }
@@ -46,6 +46,7 @@ package Src.Entity
         else
           game.entityManager.push(new Witch(collider.pos));
         alive = false;
+        game.soundManager.playSound("deNewt");
     }
 
     public override function update():void

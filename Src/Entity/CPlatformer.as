@@ -16,8 +16,9 @@ package Src.Entity
     public var isLeft:Boolean;
     public var anim:Number;
     public var runSpeed:Number;
+    public var jumpSound:String;
 
-    public function CPlatformer(e:Entity, collider:CCollider, sprite:CSprite, controller:CController)
+    public function CPlatformer(e:Entity, collider:CCollider, sprite:CSprite, controller:CController, jumpSound:String)
     {
       this.e = e;
       this.collider = collider;
@@ -25,6 +26,7 @@ package Src.Entity
       this.controller = controller;
       this.anim = 0;
       this.runSpeed = 1;
+      this.jumpSound = jumpSound;
       reset();
     }
 
@@ -77,10 +79,13 @@ package Src.Entity
         }
       }
       if(canJump)
-      {
+      {        
         collider.speed.y = 1-0.3;
         if(controller.goUp)
+        {
+          e.game.soundManager.playSound(jumpSound);
           collider.speed.y = -3;
+        }
       }
       collider.speed.y += 0.3;
       if(collider.speed.y > 3)

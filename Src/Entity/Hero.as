@@ -29,7 +29,7 @@ package Src.Entity
       heroController = new CHeroController(this, collider);
       nullController = new CController();
       controller = heroController;
-      platformer = new CPlatformer(this, collider, sprite, controller);      
+      platformer = new CPlatformer(this, collider, sprite, controller, "heroJump");      
       reset();
       collider.pos = pos;
     }
@@ -45,6 +45,7 @@ package Src.Entity
       // she turned me into a newt
       alive = false;
       game.entityManager.push(new Newt(collider, controller, true));
+      game.soundManager.playSound("convert");
       return true;
     }
 
@@ -79,6 +80,7 @@ package Src.Entity
         colliding[i].alive = false;
         captured = colliding[i];
         slashTimer = 1;
+        game.soundManager.playSound("slash");
       }
     }    
     

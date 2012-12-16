@@ -22,7 +22,7 @@ package Src.Entity
       collider = new CCollider(this);
       collider.rect = new Rectangle(0,0,10,9);
       controller = new CGrazeController(this, collider);
-      platformer = new CPlatformer(this, collider, sprite, controller);
+      platformer = new CPlatformer(this, collider, sprite, controller, "bunnyJump");
       controller.platformer = platformer;
       reset();
       collider.pos = pos;
@@ -39,6 +39,7 @@ package Src.Entity
       // demon bunny
       alive = false;
       game.entityManager.push(new DemonBunny(collider, controller));
+      game.soundManager.playSound("convert");
       return true;
     }
 

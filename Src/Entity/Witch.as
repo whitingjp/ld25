@@ -22,7 +22,7 @@ package Src.Entity
       controller = new CPlayerController(this);
       collider = new CCollider(this);
       collider.rect = new Rectangle(0,0,10,9);
-      platformer = new CPlatformer(this, collider, sprite, controller);      
+      platformer = new CPlatformer(this, collider, sprite, controller, "witchJump");      
       reset();
       collider.pos = pos;
       spellTimer = 0;
@@ -39,6 +39,7 @@ package Src.Entity
       // well that was silly
       alive = false;
       game.entityManager.push(new Newt(collider, controller, false));
+      game.soundManager.playSound("convert");
       return true;
     }
     public override function update():void
@@ -55,6 +56,7 @@ package Src.Entity
         var spell:Spell = new Spell(pos, platformer.isLeft);        
 
         game.entityManager.push(spell);
+        game.soundManager.playSound("fireWand");
       }
       if(spellTimer > 0)
         spellTimer -= 0.05;     

@@ -49,11 +49,13 @@ package Src.Entity
 
           tile.t = Tile.T_WALL;
           tile.xFrame = 4;
+          game.soundManager.playSound("makeBlock");
         } else
         {
           tile.t = Tile.T_NONE;
           tile.xFrame = 0;
           tile.yFrame = 0;
+          game.soundManager.playSound("removeBlock");
         }
         game.tileMap.autoTileSet(xy.x, xy.y);
         return;

@@ -27,7 +27,7 @@ package Src.Entity
       controller.flipChance = 0.001;
       sprite = new CSprite(this, new SpriteDef(0,70,10,10,2,2));
       eatSprite = new CSprite(this, new SpriteDef(0,90,20,20,4,2));
-      platformer = new CPlatformer(this, collider, sprite, controller);
+      platformer = new CPlatformer(this, collider, sprite, controller, "demonBunnyJump");
       nullController = new CController();
       controller.platformer = platformer;
     }
@@ -40,6 +40,7 @@ package Src.Entity
       bunny.collider = collider;
       bunny.controller = controller;
       game.entityManager.push(bunny);
+      game.soundManager.playSound("convert");
       return true;
     }
 
@@ -68,6 +69,7 @@ package Src.Entity
         colliding[i].alive = false;
         captured = colliding[i];
         eatTimer = 1;
+        game.soundManager.playSound("eat");
       }
 
     }
