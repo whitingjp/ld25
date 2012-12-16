@@ -20,6 +20,7 @@ package Src.Entity
     public var resolve:Boolean;
     public var collided:int;
     public var elasticity:Number;
+    public var tileResolve:Boolean;
   
     public function CCollider(e:Entity)
     {
@@ -28,6 +29,7 @@ package Src.Entity
       speed = new Point(0,0);
       rect = new Rectangle(0,0,10,10);
       resolve = true;
+      tileResolve = true;
       collided = 0;      
       elasticity = 0;
     }

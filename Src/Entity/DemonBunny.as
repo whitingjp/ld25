@@ -55,6 +55,7 @@ package Src.Entity
         eatTimer -= 0.05;
         if(eatTimer < 0)
         {
+          game.showerGibs(collider.pos);
           game.entityManager.push(new Bunny(collider.pos));
           alive = false;
         }

@@ -80,6 +80,7 @@ package Src.Entity
           {
             otherE.alive = false;
             e.game.soundManager.playSound("squishNewt");
+            e.game.showerGibs(collider.pos);
           }
         }
       }

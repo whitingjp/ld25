@@ -22,6 +22,7 @@ package Src.Entity
       collider.rect = new Rectangle(1,1,3,3);
       collider.pos = pos;
       collider.resolve = false;
+      collider.tileResolve = false;
       collider.speed.x = isLeft ? -1.5 : 1.5;
       animTimer = 0;
       lifeTimer = 1;

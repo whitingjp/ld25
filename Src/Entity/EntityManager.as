@@ -228,7 +228,7 @@ package Src.Entity
             var tileRect:Rectangle = new Rectangle(x*size.x, y*size.y-1, size.x, size.y);
             if(!worldrect.intersects(tileRect))
               continue;
-            if(!entities[i].collider.resolve)
+            if(!entities[i].collider.tileResolve)
               continue;              
             var minmove:Point = minMove(tileRect, worldrect);
             if(isX == false)

@@ -69,7 +69,7 @@ package Src
     {
       this.main = main;
       this.stage = stage;	  
-      State = STATE_FE;
+      State = STATE_GAME;
     
       physTime = 1000.0/targetFps;
       soundManager.init();
@@ -192,6 +192,19 @@ package Src
     public function gameOverMan():void
     {
       gameOverTimer = 1;
+    }
+
+    public function showerGibs(pos:Point):void
+    {
+      var gibs:int = Math.random()*3+3;
+      var bunnies:Boolean = Math.random() > 0.98;
+      for(var i:int=0; i<5; i++)
+      {
+        if(bunnies)
+          entityManager.push(new Bunny(pos));
+        else
+          entityManager.push(new Gibs(pos));
+      }
     }
 
     public function set State(state:int):void
