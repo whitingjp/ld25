@@ -76,6 +76,11 @@ package Src.Entity
           var otherE:Entity = colliding.pop();
           if(otherE != e)
             canJump = true;
+          if(otherE is Newt && collider.speed.y > 2.5)
+          {
+            otherE.alive = false;
+            e.game.soundManager.playSound("squishNewt");
+          }
         }
       }
       if(canJump)
