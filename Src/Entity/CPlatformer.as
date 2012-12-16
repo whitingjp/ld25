@@ -64,6 +64,18 @@ package Src.Entity
     public function updateJump():void
     {
       var canJump:Boolean = (collider.collided & 1) > 0;
+      if(!canJump)
+      {
+        var worldRect:Rectangle = collider.worldRect;
+        worldRect.offset(0, 2);
+        var colliding:Array = e.game.entityManager.getColliding(worldRect);
+        while(colliding.length > 0)
+        {          
+          var otherE:Entity = colliding.pop();
+          if(otherE != e)
+            canJump = true;
+        }
+      }
       if(canJump)
       {
         collider.speed.y = 1-0.3;
