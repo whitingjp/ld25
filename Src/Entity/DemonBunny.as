@@ -34,7 +34,12 @@ package Src.Entity
 
     public override function doSpell():Boolean
     {
-      controller.aimingLeft = !controller.aimingLeft;
+      // bunny
+      alive = false;
+      var bunny:Bunny = new Bunny(collider.pos);      
+      bunny.collider = collider;
+      bunny.controller = controller;
+      game.entityManager.push(bunny);
       return true;
     }
 
