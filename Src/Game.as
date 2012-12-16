@@ -207,6 +207,12 @@ package Src
       }
     }
 
+    public function makeMagic(pos:Point):void
+    {
+        for(var j:int=0; j<10; j++)
+          entityManager.push(new Magic(pos));
+    }
+
     public function set State(state:int):void
     {
       gameState = state;

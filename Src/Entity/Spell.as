@@ -35,6 +35,7 @@ package Src.Entity
       if(game.tileMap.getColAtRect(collider.worldRect) == CCollider.COL_SOLID)
       {
         alive = false;
+        game.makeMagic(collider.pos.clone());
         var worldRect:Rectangle = collider.worldRect;
         var centre:Point=new Point((worldRect.left+worldRect.right)/2, (worldRect.top+worldRect.bottom)/2);
         var offCentre:Point = centre.clone();
@@ -72,7 +73,10 @@ package Src.Entity
         if(!colliding[i].alive || !alive)
           continue;
         if(colliding[i].doSpell())
+        {
           alive = false;
+          game.makeMagic(collider.pos.clone());
+        }
       }      
     }
     
