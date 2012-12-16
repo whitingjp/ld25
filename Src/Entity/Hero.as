@@ -21,6 +21,8 @@ package Src.Entity
 
     public var captured:Entity = null;
 
+    public var windUp:int;
+
     public function Hero(pos:Point)
     {
       var sprite:CSprite = new CSprite(this, new SpriteDef(20,50,10,10,7,2));
@@ -32,6 +34,7 @@ package Src.Entity
       platformer = new CPlatformer(this, collider, sprite, controller, "heroJump");      
       reset();
       collider.pos = pos;
+      windUp=0;
     }
 
     public function reset():void
@@ -52,6 +55,8 @@ package Src.Entity
 
     public override function update():void
     {
+      if(!alive)
+        return;
       platformer.update();
       var paintRect:Rectangle = collider.worldRect.clone();
       paintRect.inflate(5,5);
@@ -74,14 +79,22 @@ package Src.Entity
       var colliding:Array = game.entityManager.getColliding(worldRect);
       for(var i:int=0; i<colliding.length; i++)
       {
+        if(!colliding[i].alive)
+          continue;
         if(colliding[i] is Bunny || colliding[i] is Spell || colliding[i] is Hero)
           continue;
+        if(windUp == 0)
+        {
+          windUp+=5;
+          break;
+        }
         platformer.controller = nullController;
         colliding[i].alive = false;
         captured = colliding[i];
         slashTimer = 1;
         game.soundManager.playSound("slash");
       }
+      if(windUp > 0) windUp--;
     }    
     
     public override function render():void
