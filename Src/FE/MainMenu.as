@@ -17,7 +17,7 @@ package Src.FE
     {
       screen = -1;
       animTimer = 0;
-      story = new SpriteDef(120,0,40,30,1,6)
+      story = new SpriteDef(120,0,40,30,1,10)
       delay = 1;
       hitTimer = 0;
     }
@@ -31,7 +31,7 @@ package Src.FE
       {
         screen++;
         delay = 1;
-        if(screen > 2)
+        if(screen > 4)
         {
           game.State = Game.STATE_GAME;
         }
@@ -39,7 +39,7 @@ package Src.FE
 
       if(hitTimer > 0)
         hitTimer -= 0.015;
-      if(hitTimer <= 0 && screen > -1)
+      if(hitTimer <= 0 && screen > -1 && screen < 4)
       {
         game.soundManager.playSound("breakingHouse");
         hitTimer = 1+Math.random()*0.1;
