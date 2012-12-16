@@ -25,9 +25,9 @@ package Src.FE
     public override function update():void
     {
       animTimer += 0.02;
-      if(delay > 0) delay -= 0.1;
+      if(delay > 0) delay -= 0.01;
       while(animTimer > 1) animTimer--;
-      if(game.input.actKey(false))
+      if(delay <= 0 && game.input.actKey(false))
       {
         screen++;
         delay = 1;
