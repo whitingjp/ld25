@@ -24,7 +24,6 @@ package Src.Entity
     {
       this.collider = collider;
       this.controller = controller;
-      controller.flipChance = 0.001;
       sprite = new CSprite(this, new SpriteDef(0,70,10,10,2,2));
       eatSprite = new CSprite(this, new SpriteDef(0,90,20,20,4,2));
       platformer = new CPlatformer(this, collider, sprite, controller, "demonBunnyJump");
