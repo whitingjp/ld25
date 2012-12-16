@@ -86,7 +86,7 @@ package Src.Entity
     {
       if(pos == null)
         pos = collider.pos;
-      sprite.frame.x = anim*sprite.def.xFrames;
+      sprite.frame.x = anim*2;
       if(isLeft)
         sprite.frame.y = 1;
       else

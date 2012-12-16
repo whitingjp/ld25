@@ -14,12 +14,21 @@ package Src.Entity
     public var platformer:CPlatformer;
     public var controller:CController;
 
+    public var heroController:CController;
+    public var nullController:CController;
+
+    public var slashTimer:Number = -1;
+
+    public var captured:Entity = null;
+
     public function Hero(pos:Point)
     {
-      var sprite:CSprite = new CSprite(this, new SpriteDef(20,50,10,10,2,2));      
+      var sprite:CSprite = new CSprite(this, new SpriteDef(20,50,10,10,7,2));
       collider = new CCollider(this);
       collider.rect = new Rectangle(0,0,10,9);
-      controller = new CHeroController(this, collider);
+      heroController = new CHeroController(this, collider);
+      nullController = new CController();
+      controller = heroController;
       platformer = new CPlatformer(this, collider, sprite, controller);      
       reset();
       collider.pos = pos;
@@ -46,11 +55,43 @@ package Src.Entity
       var paintRect:Rectangle = collider.worldRect.clone();
       paintRect.inflate(5,5);
       game.tileMap.paintRect(paintRect, 0);
+
+      if(slashTimer >= 0)
+      {
+        collider.speed.x = 0;
+        slashTimer -= 0.05;
+        if(slashTimer < 0)
+        {
+          platformer.controller = heroController;
+          captured = null;
+        }
+        return;
+      }
+
+      var colliding:Array = game.entityManager.getColliding(collider.worldRect);
+      for(var i:int=0; i<colliding.length; i++)
+      {
+        if(/*colliding[i] is Bunny ||*/ colliding[i] is Spell || colliding[i] is Hero)
+          continue;
+        platformer.controller = nullController;
+        colliding[i].alive = false;
+        captured = colliding[i];
+        slashTimer = 1;
+      }
     }    
     
     public override function render():void
     {
-      platformer.render(collider.pos);
+      if(slashTimer >= 0)
+      {
+        captured.render();
+        platformer.sprite.frame.x = (1-slashTimer)*7;
+        var renderPos:Point = collider.pos.clone();
+        platformer.sprite.render(renderPos);
+      } else
+      {
+        platformer.render(collider.pos);
+      }
     }
   }
 }

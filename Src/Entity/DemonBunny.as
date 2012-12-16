@@ -46,6 +46,17 @@ package Src.Entity
     public override function update():void
     { 
       platformer.update();
+      if(eatTimer >= 0)
+      {
+        collider.speed.x = 0;
+        eatTimer -= 0.05;
+        if(eatTimer < 0)
+        {
+          game.entityManager.push(new Bunny(collider.pos));
+          alive = false;
+        }
+        return;
+      }
       var colliding:Array = game.entityManager.getColliding(collider.worldRect);
       for(var i:int=0; i<colliding.length; i++)
       {
@@ -56,17 +67,8 @@ package Src.Entity
         captured = colliding[i];
         eatTimer = 1;
       }
-      if(eatTimer >= 0)
-      {
-        collider.speed.x = 0;
-        eatTimer -= 0.05;
-        if(eatTimer < 0)
-        {
-          game.entityManager.push(new Bunny(collider.pos));
-          alive = false;
-        }
-      }
-    }    
+
+    }
     
     public override function render():void
     {

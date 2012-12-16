@@ -17,7 +17,7 @@ package Src.Entity
 
     public function Spell(pos:Point, isLeft:Boolean)
     {
-      sprite = new CSprite(this, new SpriteDef(40,50,5,5,2,1));    
+      sprite = new CSprite(this, new SpriteDef(80,50,5,5,2,1));    
       collider = new CCollider(this);
       collider.rect = new Rectangle(1,1,3,3);
       collider.pos = pos;
