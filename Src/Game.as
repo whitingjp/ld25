@@ -29,10 +29,11 @@ package Src
     private var lastTime:int = 0;
     private var fpsText:TextField;
 
+
     private var updateTracker:Number = 0;
     private var physTime:Number;
 
-    private var gameState:int = STATE_GAME;
+    private var gameState:int = STATE_FE;
 
     public var entityManager:EntityManager;
     public var input:Input;
@@ -41,6 +42,8 @@ package Src
     public var tileMap:TileMap;
     public var tileEditor:TileEditor;
     public var frontEnd:Frontend;
+
+    public var main:Main;
 
     [Embed(source="../level/level.lev", mimeType="application/octet-stream")]
     public static const Level1Class: Class;
@@ -57,22 +60,18 @@ package Src
       tileMap.unpack(new Level1Class as ByteArray);
     }
 
-    public function init(w:int, h:int, pixelSize:int, targetFps:int, stage:Stage):void
+    public function init(targetFps:int, stage:Stage, main:Main):void
     {
+      this.main = main;
       this.stage = stage;	  
+      State = STATE_FE;
     
       physTime = 1000.0/targetFps;
-      renderer.init(w, h, pixelSize);
       soundManager.init();
       input.init();
       tileEditor = new TileEditor(tileMap);
 
-      gameState = STATE_GAME;
       frontEnd.addScreen(new MainMenu());
-
-      fpsText = new TextField();
-      fpsText.textColor = 0xffffffff;
-      fpsText.text = "352 fps";
 
       resetEntities();
     
@@ -82,9 +81,16 @@ package Src
     private function update():void
     {
       renderer.update();
-      entityManager.update();
+
       if(State == STATE_FE)
+      {
         frontEnd.update();
+        input.update(); 
+        return;
+      }
+
+      entityManager.update();
+
       if(State == STATE_EDITING)
         tileEditor.update();
         
@@ -93,8 +99,7 @@ package Src
         if(State == STATE_GAME)
           State = STATE_EDITING;
         else
-          State = STATE_GAME;
-        resetEntities();
+          State = STATE_GAME;        
       }
         
       // Update input last, so mouse presses etc. will register first..
@@ -114,16 +119,23 @@ package Src
     {
       renderer.cls();
       
+      if(State == STATE_FE)
+      {
+        frontEnd.render();
+        renderer.flip();
+        return;
+      }
+
       //renderer.setCamera(camera);
       tileMap.render();
       entityManager.render();
+
       if(State == STATE_EDITING)
         tileEditor.renderWithCam();
       //renderer.setCamera();
       if(State == STATE_EDITING)
         tileEditor.renderWithoutCam(); 
-      if(State == STATE_FE)
-        frontEnd.render();
+
 
       /*
       if(!IS_FINAL)
@@ -164,6 +176,12 @@ package Src
     public function set State(state:int):void
     {
       gameState = state;
+      resetEntities();
+      if(gameState != STATE_FE )
+        renderer.init( 320, 240, 2, 4);
+      else
+        renderer.init( 40, 30, 16, 1);
+      main.reAddBuffer();
     }
   }
 }

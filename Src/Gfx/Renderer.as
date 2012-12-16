@@ -33,7 +33,7 @@ package Src.Gfx
     private var fade:Number;
     private var fadeCol:uint;
 
-    public function init(width:int, height:int, pixelSize:int):void
+    public function init(width:int, height:int, pixelSize:int, numBuffers:int):void
     {
       this.width = width;
       this.height = height;
@@ -46,6 +46,7 @@ package Src.Gfx
       spriteSheet = spriteSheetSrc.bitmapData;
 
       buffers = new Array();
+      this.numBuffers = numBuffers;
       for(var i:int = 0; i<numBuffers; i++)
         buffers.push(new BitmapData(width, height/numBuffers, false));
 

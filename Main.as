@@ -12,11 +12,17 @@ package {
 			game = new Game();
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage );
 		}
+
+		public function reAddBuffer() : void
+		{
+			while(numChildren != 0) removeChildAt(0);
+			addChild(game.renderer.bitmap);
+		}
 		
 		private function onAddedToStage( pEvent : Event ) : void
 		{
-			game.init( 320, 240, 2, 60, stage);
-			addChild(game.renderer.bitmap);
+			game.init(60, stage, this);
+			reAddBuffer();
 		}
 	}
 }
