@@ -23,7 +23,9 @@ package Src.Entity
     public function get game():Game
     {
       return manager.game;
-    }    
+    }
+
+    public function isAlive():Boolean { return alive; }  
 
     public function update():void {}
     public function render():void {}

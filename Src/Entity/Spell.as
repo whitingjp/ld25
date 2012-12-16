@@ -66,11 +66,10 @@ package Src.Entity
       var colliding:Array = game.entityManager.getColliding(collider.worldRect);
       for(var i:int=0; i<colliding.length; i++)
       {
+        if(!colliding[i].alive || !alive)
+          continue;
         if(colliding[i].doSpell())
-        {
           alive = false;
-          return;
-        }
       }      
     }
     
