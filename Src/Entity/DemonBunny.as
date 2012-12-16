@@ -57,7 +57,9 @@ package Src.Entity
         }
         return;
       }
-      var colliding:Array = game.entityManager.getColliding(collider.worldRect);
+      var worldRect:Rectangle = collider.worldRect;
+      worldRect.offset(platformer.isLeft ? -4 : 4, 0);
+      var colliding:Array = game.entityManager.getColliding(worldRect);
       for(var i:int=0; i<colliding.length; i++)
       {
         if(colliding[i] is DemonBunny || colliding[i] is Spell)
