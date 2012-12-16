@@ -38,7 +38,10 @@ package Src.Entity
     {
       // demon bunny
       alive = false;
-      game.entityManager.push(new DemonBunny(collider, controller));
+      var demon:DemonBunny = new DemonBunny(collider, controller);
+      demon.platformer.isLeft = platformer.isLeft;
+      game.entityManager.push(demon);
+
       game.soundManager.playSound("convert");
       return true;
     }

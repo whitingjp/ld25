@@ -39,6 +39,7 @@ package Src.Entity
       var bunny:Bunny = new Bunny(collider.pos);      
       bunny.collider = collider;
       bunny.controller = controller;
+      bunny.platformer.isLeft = platformer.isLeft;
       game.entityManager.push(bunny);
       game.soundManager.playSound("convert");
       return true;
