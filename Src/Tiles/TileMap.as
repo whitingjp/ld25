@@ -37,7 +37,7 @@ package Src.Tiles
     
     public function TileMap(game:Game)
     {
-      reset(32,6);
+      reset(32*4,6);
       this.game = game;
       filledTile = new Tile();
       filledTile.t = Tile.T_WALL;

@@ -19,12 +19,12 @@ package Src.Gfx
     public var spriteSheet:BitmapData;
 
     // double buffer
-    public var topBuffer:BitmapData;
-    public var bottomBuffer:BitmapData;
+    public var buffers:Array;
+    public var numBuffers:int = 4;
 
     // colour to use to clear backbuffer with
     public var clearColor:uint = 0xfffcfdd9;
-    public var bottomClearColor:uint = 0xffdffdce;
+    public var clearColors:Array;
     
     // background
     public var bitmap:Bitmap;
@@ -45,8 +45,15 @@ package Src.Gfx
       spriteSheetSrc = new spriteSheetClass() as BitmapAsset;
       spriteSheet = spriteSheetSrc.bitmapData;
 
-      topBuffer = new BitmapData(width, height/2, false);
-      bottomBuffer = new BitmapData(width, height/2, false);
+      buffers = new Array();
+      for(var i:int = 0; i<numBuffers; i++)
+        buffers.push(new BitmapData(width, height/numBuffers, false));
+
+      clearColors = new Array();
+      clearColors.push(0xfffcfdd9);
+      clearColors.push(0xffdffdce);
+      clearColors.push(0xfffcfdd9);
+      clearColors.push(0xffdffdce);
 
       fade = 0;
       fadeSpeed = 0.005;
@@ -55,15 +62,19 @@ package Src.Gfx
 
     public function cls():void
     {
-      drawRect(new Rectangle(0,0, width*2, height), clearColor);
+      drawRect(new Rectangle(0,0, width*numBuffers, height), 0xff000000);
     }
 
     public function flip():void
     {
-      bitmap.bitmapData.fillRect( bitmap.bitmapData.rect, clearColor );
-      bitmap.bitmapData.copyPixels(topBuffer, topBuffer.rect, new Point(0,0));
-      swapColour(bottomBuffer, clearColor, bottomClearColor);
-      bitmap.bitmapData.copyPixels(bottomBuffer, bottomBuffer.rect, new Point(0,height/2));
+      bitmap.bitmapData.fillRect( bitmap.bitmapData.rect, 0xff000000 );
+      for(var i:int = 0; i<numBuffers; i++)
+      {
+        var h:int = (height/numBuffers)*i;
+        swapColour(buffers[i], 0xff000000, clearColors[i]);
+        bitmap.bitmapData.copyPixels(buffers[i], buffers[i].rect, new Point(0,h));
+        //swapColour(buffers[i], clearColor, clearColors[i]);        
+      }
     
       // TODO handle fade again
     }
@@ -72,33 +83,32 @@ package Src.Gfx
                                 xFrame:int=0, yFrame:int=0):void
     {
       var rect:Rectangle = spr.getRect(xFrame, yFrame);
-      topBuffer.copyPixels(spriteSheet, rect, new Point(x,y));
-      bottomBuffer.copyPixels(spriteSheet, rect, new Point(x-width,y));
-      if(x+rect.width > width*2)
-        drawSprite(spr, x-width*2, y, xFrame, yFrame);
+
+      for(var i:int = 0; i<numBuffers; i++)
+        buffers[i].copyPixels(spriteSheet, rect, new Point(x-width*i,y));
+      if(x+rect.width > width*numBuffers)
+        drawSprite(spr, x-width*numBuffers, y, xFrame, yFrame);
     }
     
     public function drawRect(rect:Rectangle, fillCol:uint):void
     {
-      topBuffer.fillRect(rect, fillCol);
-      rect.x -= width;
-      bottomBuffer.fillRect(rect, fillCol);
+      for(var i:int = 0; i<numBuffers; i++)
+      {
+        buffers[i].fillRect(rect, fillCol);
+        rect.x -= width;
+      }
     }
 
     public function drawHollowRect(rect:Rectangle, fillCol:uint):void
     {
-      topBuffer.fillRect(new Rectangle(rect.x, rect.y, rect.width, 1), fillCol);
-      topBuffer.fillRect(new Rectangle(rect.x+rect.width-1, rect.y, 1, rect.height), fillCol);
-      topBuffer.fillRect(new Rectangle(rect.x, rect.y+rect.height-1, rect.width, 1), fillCol);
-      topBuffer.fillRect(new Rectangle(rect.x, rect.y, 1, rect.height), fillCol);
-
-      rect.x -= width;
-
-      bottomBuffer.fillRect(new Rectangle(rect.x, rect.y, rect.width, 1), fillCol);
-      bottomBuffer.fillRect(new Rectangle(rect.x+rect.width-1, rect.y, 1, rect.height), fillCol);
-      bottomBuffer.fillRect(new Rectangle(rect.x, rect.y+rect.height-1, rect.width, 1), fillCol);
-      bottomBuffer.fillRect(new Rectangle(rect.x, rect.y, 1, rect.height), fillCol);
-
+      for(var i:int = 0; i<numBuffers; i++)
+      {
+        buffers[i].fillRect(new Rectangle(rect.x, rect.y, rect.width, 1), fillCol);
+        buffers[i].fillRect(new Rectangle(rect.x+rect.width-1, rect.y, 1, rect.height), fillCol);
+        buffers[i].fillRect(new Rectangle(rect.x, rect.y+rect.height-1, rect.width, 1), fillCol);
+        buffers[i].fillRect(new Rectangle(rect.x, rect.y, 1, rect.height), fillCol);
+        rect.x -= width;
+      }
     }
 
     public function drawSpriteText(str:String, x:int, y:int):void
@@ -146,8 +156,10 @@ package Src.Gfx
     {
       for(var i:int=0; i<src.length; i++)
       {
-        swapColour(topBuffer, src[i], dest[i]);
-        swapColour(bottomBuffer, src[i], dest[i]);
+        for(var j:int=0; j<numBuffers; j++)
+        {
+          swapColour(buffers[i], src[i], dest[i]);
+        }
       }
     }
 

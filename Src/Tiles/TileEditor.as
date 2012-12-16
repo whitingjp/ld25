@@ -53,9 +53,9 @@ package Src.Tiles
     public function getOffsetMouse():Point
     {
       var mousePos:Point = game.input.mousePos.clone();
-      if(mousePos.y > game.renderer.height/2)
+      while(mousePos.y > game.renderer.height/4)
       {
-        mousePos.y -= game.renderer.height/2;
+        mousePos.y -= game.renderer.height/4;
         mousePos.x += game.renderer.width;
       }
       return mousePos;
