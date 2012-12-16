@@ -22,7 +22,7 @@ package Src.Entity
       collider.rect = new Rectangle(1,1,3,3);
       collider.pos = pos;
       collider.resolve = false;
-      collider.speed.x = isLeft ? -1 : 1;
+      collider.speed.x = isLeft ? -1.5 : 1.5;
       animTimer = 0;
       lifeTimer = 1;
     }
@@ -37,7 +37,7 @@ package Src.Entity
         var worldRect:Rectangle = collider.worldRect;
         var centre:Point=new Point((worldRect.left+worldRect.right)/2, (worldRect.top+worldRect.bottom)/2);
         var offCentre:Point = centre.clone();
-        offCentre.x += collider.speed.x * 10;
+        offCentre.x += collider.speed.x * 6;
         var tileIndex:int = game.tileMap.getIndexFromPos(offCentre);
         var xy:Point = game.tileMap.getXY(tileIndex);
         var tile:Tile = game.tileMap.getTileFromIndex(tileIndex);

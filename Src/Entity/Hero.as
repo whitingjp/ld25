@@ -43,15 +43,6 @@ package Src.Entity
     public override function update():void
     {
       platformer.update();
-      if(controller.doAction)
-      {
-        var pos:Point = collider.pos.clone();
-        pos.x += platformer.isLeft ? -3 : 7;
-        pos.y += 4;
-        var spell:Spell = new Spell(pos, platformer.isLeft);
-
-        game.entityManager.push(spell);
-      }
       var paintRect:Rectangle = collider.worldRect.clone();
       paintRect.inflate(5,5);
       game.tileMap.paintRect(paintRect, 0);

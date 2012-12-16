@@ -14,6 +14,8 @@ package Src.Entity
     public var platformer:CPlatformer;
     public var controller:CController;
 
+    public var spellTimer:Number;
+
     public function Witch(pos:Point)
     {
       var sprite:CSprite = new CSprite(this, new SpriteDef(0,50,10,10,2,2));
@@ -23,6 +25,7 @@ package Src.Entity
       platformer = new CPlatformer(this, collider, sprite, controller);      
       reset();
       collider.pos = pos;
+      spellTimer = 0;
     }
 
     public function reset():void
@@ -41,15 +44,20 @@ package Src.Entity
     public override function update():void
     {
       platformer.update();
-      if(controller.doAction)
+      if(controller.doAction && spellTimer <= 0)
       {
+        trace(spellTimer);
+        spellTimer = 1;
+        trace(spellTimer);
         var pos:Point = collider.pos.clone();
-        pos.x += platformer.isLeft ? -6 : 10;
+        pos.x += platformer.isLeft ? -6: 10;
         pos.y += 4;
-        var spell:Spell = new Spell(pos, platformer.isLeft);
+        var spell:Spell = new Spell(pos, platformer.isLeft);        
 
         game.entityManager.push(spell);
       }
+      if(spellTimer > 0)
+        spellTimer -= 0.05;     
       var paintRect:Rectangle = collider.worldRect.clone();
       paintRect.inflate(5,5);
       game.tileMap.paintRect(paintRect, 1);
