@@ -51,6 +51,16 @@ package Src.Entity
       move(false);
       tileResolve(false);
       resolve();
+      for(i=0; i<entities.length; i++)
+      {
+        if(!entities[i].alive)
+        {
+          if(entities[i] is Hero)
+            game.score++;
+          if(entities[i] is Witch)
+            game.gameOverMan()
+        }
+      }
       entities = entities.filter(isAlive);
       while(pushArray.length > 0)
         entities.push(pushArray.pop());

@@ -43,7 +43,11 @@ package Src
     public var tileEditor:TileEditor;
     public var frontEnd:Frontend;
 
+    public var score:int=0;
+
     public var main:Main;
+
+    public var gameOverTimer:Number;
 
     [Embed(source="../level/level.lev", mimeType="application/octet-stream")]
     public static const Level1Class: Class;
@@ -58,6 +62,7 @@ package Src
       frontEnd = new Frontend(this);
 
       tileMap.unpack(new Level1Class as ByteArray);
+      gameOverTimer = 0;
     }
 
     public function init(targetFps:int, stage:Stage, main:Main):void
@@ -100,6 +105,17 @@ package Src
           State = STATE_EDITING;
         else
           State = STATE_GAME;        
+      }
+
+      if(gameOverTimer > 0)
+      {
+        gameOverTimer -= 0.007;
+        trace(gameOverTimer);
+        if(gameOverTimer <= 0)
+        {
+          frontEnd.swapScreen(new ScoreBoard());
+          State = STATE_FE;
+        }
       }
         
       // Update input last, so mouse presses etc. will register first..
@@ -173,14 +189,24 @@ package Src
       return gameState;
     }
 
+    public function gameOverMan():void
+    {
+      gameOverTimer = 1;
+    }
+
     public function set State(state:int):void
     {
       gameState = state;
       resetEntities();
       if(gameState != STATE_FE )
+      {
         renderer.init( 320, 240, 2, 4);
+        score = 0;
+      }
       else
+      {
         renderer.init( 40, 30, 16, 1);
+      }
       main.reAddBuffer();
     }
   }
