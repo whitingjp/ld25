@@ -69,7 +69,7 @@ package Src
     {
       this.main = main;
       this.stage = stage;	  
-      State = STATE_GAME;
+      State = STATE_FE;
     
       physTime = 1000.0/targetFps;
       soundManager.init();

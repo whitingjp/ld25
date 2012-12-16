@@ -42,7 +42,10 @@ package Src.Entity
     private function returnToTrueForm():void
     {
         if(good)
+        {
           game.entityManager.push(new Hero(collider.pos));
+          game.score--;
+        }
         else
           game.entityManager.push(new Witch(collider.pos));
         alive = false;
