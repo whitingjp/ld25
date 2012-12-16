@@ -14,6 +14,10 @@ package Src.Entity
 
     public var pushArray:Array;
 
+    public var targetBunnies:int = 10;
+    public var targetHeroes:Number = 1;
+    public var spawnTimer:Number = 0;
+
     public function EntityManager(game:Game, subMoves:int)
     {      
       this.game = game;
@@ -50,6 +54,44 @@ package Src.Entity
       entities = entities.filter(isAlive);
       while(pushArray.length > 0)
         entities.push(pushArray.pop());
+
+      
+      if(spawnTimer > 0)
+        spawnTimer -= 0.002;
+      if(spawnTimer <= 0)
+      {
+        
+        var bunnyCount:int = 0;
+        var heroCount:int = 0;
+        for(i=0; i<entities.length; i++)
+        {
+          if(entities[i] is Bunny || entities[i] is DemonBunny)
+            bunnyCount++;          
+          if(entities[i] is Hero)
+            heroCount++;
+        }
+        var levelWidth:int = game.tileMap.width*TileMap.tileWidth;
+        var pos:Point;
+        while(bunnyCount < targetBunnies)
+        { 
+          pos = new Point(Math.random()*levelWidth, -10);
+          push(new Bunny(pos));
+          bunnyCount++;
+        }
+        if(heroCount == 0)
+        {
+          targetHeroes += 1;
+          while(heroCount < targetHeroes)
+          {
+            pos = new Point(Math.random()*(levelWidth/8)+levelWidth/8, -10);
+            push(new Hero(pos));
+            heroCount++;
+          }
+        }
+        
+        spawnTimer = 1;
+      }
+      
     }
 
     public function render():void

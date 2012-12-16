@@ -33,7 +33,7 @@ package Src
     private var updateTracker:Number = 0;
     private var physTime:Number;
 
-    private var gameState:int = STATE_FE;
+    private var gameState:int;
 
     public var entityManager:EntityManager;
     public var input:Input;
@@ -64,7 +64,7 @@ package Src
     {
       this.main = main;
       this.stage = stage;	  
-      State = STATE_FE;
+      State = STATE_GAME;
     
       physTime = 1000.0/targetFps;
       soundManager.init();

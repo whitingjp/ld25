@@ -35,7 +35,7 @@ package Src.Tiles
 
     private var emptyTile:Tile;
     private var filledTile:Tile;
-    
+
     public function TileMap(game:Game)
     {
       reset(32*4,6);
