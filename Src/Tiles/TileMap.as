@@ -33,6 +33,7 @@ package Src.Tiles
     
     public var game:Game;
 
+    private var emptyTile:Tile;
     private var filledTile:Tile;
     
     public function TileMap(game:Game)
@@ -41,6 +42,7 @@ package Src.Tiles
       this.game = game;
       filledTile = new Tile();
       filledTile.t = Tile.T_WALL;
+      emptyTile = new Tile();
     }
     
     public function reset(width:int, height:int):void
@@ -101,7 +103,7 @@ package Src.Tiles
     {
       while(x < 0) x += width;
       while(x >= width) x -= width;
-      if(y < 0) return -1;
+      if(y < 0) return -2;
       if(y >= height) return -1;
       return x+y*width;
     }
@@ -123,6 +125,8 @@ package Src.Tiles
       var i:int = getIndex(x, y);
       if(i == -1)
         return filledTile;
+      if(i == -2)
+        return emptyTile;
       else
         return getTileFromIndex(getIndex(x,y));
     }
@@ -132,6 +136,8 @@ package Src.Tiles
       var i:int = getIndexFromPos(p);
       if(i == -1)
         return filledTile;
+      if(i == -2)
+        return emptyTile;
       else
         return getTileFromIndex(i);
     }
