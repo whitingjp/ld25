@@ -235,6 +235,8 @@ package Src.Tiles
       if(checkTile.t == t.t) flags |= 4;
       checkTile = getTile(x-1,y);
       if(checkTile.t == t.t) flags |= 8;
+
+      if(y==0) flags |= 1;
       
       var allWall:Boolean = false;
       switch(flags)
