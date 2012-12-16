@@ -10,14 +10,16 @@ package Src.FE
     public var screen:int;
     public var animTimer:Number;
     public var story:SpriteDef; 
-    public var delay:Number;   
+    public var delay:Number;
+    public var hitTimer:Number;
 
     public function MainMenu()
     {
-      screen = 0;
+      screen = -1;
       animTimer = 0;
-      story = new SpriteDef(120,0,40,30,1,5)
+      story = new SpriteDef(120,0,40,30,1,6)
       delay = 1;
+      hitTimer = 0;
     }
 
     public override function update():void
@@ -34,14 +36,23 @@ package Src.FE
           game.State = Game.STATE_GAME;
         }
       }
+
+      if(hitTimer > 0)
+        hitTimer -= 0.015;
+      if(hitTimer <= 0 && screen > -1)
+      {
+        game.soundManager.playSound("breakingHouse");
+        hitTimer = 1+Math.random()*0.1;
+      }
     }
 
     public override function render():void
-    {
-      var frame:int = animTimer * 2 + screen*2;
-      if(screen == 2)
-        frame = 4; 
-      game.renderer.drawSprite(story, 0, 0, 0, frame);
+    { 
+      var renderScreen:int = screen;
+      if(renderScreen < 0) renderScreen = 0;
+      var frame:int = animTimer * 2 + renderScreen*2;
+      var shake:Number = Math.random()*(hitTimer*3);
+      game.renderer.drawSprite(story, shake, 0, 0, frame);
     }
   }
 }
