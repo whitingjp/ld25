@@ -68,7 +68,7 @@ package Src
     {
       this.main = main;
       this.stage = stage;	  
-      State = STATE_GAME;
+      State = STATE_FE;
     
       physTime = 1000.0/targetFps;
       soundManager.init();
@@ -216,18 +216,18 @@ package Src
 
     public function set State(state:int):void
     {
-      gameState = state;
-      resetEntities();
+      gameState = state;      
       if(gameState != STATE_FE )
       {
-        renderer.init( 320, 240, 2, 4);
-        score = 0;
         tileMap.unpack(new Level1Class as ByteArray);
+        renderer.init( 320, 240, 2, 4);
+        score = 0;        
       }
       else
       {        
         renderer.init( 40, 30, 16, 1);
       }
+      resetEntities();
       main.reAddBuffer();
     }
   }
