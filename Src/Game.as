@@ -17,7 +17,7 @@ package Src
 
   public class Game
   {    
-    private var IS_FINAL:Boolean = false;
+    private var IS_FINAL:Boolean = true;
 
     public static var STATE_GAME:int = 0;
     public static var STATE_EDITING:int = 1;
@@ -98,7 +98,7 @@ package Src
       if(State == STATE_EDITING)
         tileEditor.update();
         
-      if(input.keyPressedDictionary[Input.KEY_E])
+      if(!IS_FINAL && input.keyPressedDictionary[Input.KEY_E])
       {
         if(State == STATE_GAME)
           State = STATE_EDITING;
