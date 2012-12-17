@@ -39,11 +39,18 @@ package Src.FE
 
       if(hitTimer > 0)
         hitTimer -= 0.015;
-      if(hitTimer <= 0 && screen > -1 && screen < 4)
+      if(hitTimer <= 0 && screen > -1)
       {
-        game.soundManager.playSound("breakingHouse");
+        if(screen < 4)
+        {
+          game.soundManager.playSound("breakingHouse");
+        } else
+        {
+           game.soundManager.playSound("convert");
+        }
         hitTimer = 1+Math.random()*0.1;
       }
+
     }
 
     public override function render():void
@@ -52,6 +59,7 @@ package Src.FE
       if(renderScreen < 0) renderScreen = 0;
       var frame:int = animTimer * 2 + renderScreen*2;
       var shake:Number = Math.random()*(hitTimer*3);
+      if(screen >= 4) shake = 0;
       game.renderer.drawSprite(story, shake, 0, 0, frame);
     }
   }
