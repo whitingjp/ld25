@@ -68,6 +68,7 @@ package Src.Entity
         slashTimer -= 0.05;
         if(slashTimer < 0)
         {
+          game.showerGibs(collider.pos.clone());
           platformer.controller = heroController;
           captured = null;
         }
