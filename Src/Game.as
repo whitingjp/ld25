@@ -131,7 +131,10 @@ package Src
 
     private function render():void
     {
-      renderer.cls();
+      if(State == STATE_GAME)
+        renderer.cls(5);
+      else
+        renderer.cls();
       
       if(State == STATE_FE)
       {

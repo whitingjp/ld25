@@ -33,6 +33,8 @@ package Src.Gfx
     private var fade:Number;
     private var fadeCol:uint;
 
+    public var xoffset:int;
+
     public function init(width:int, height:int, pixelSize:int, numBuffers:int):void
     {
       this.width = width;
@@ -61,8 +63,9 @@ package Src.Gfx
       fadeCol = 0xff000000;
     }
 
-    public function cls():void
+    public function cls(xoffset:int=0):void
     {
+      this.xoffset = xoffset;
       drawRect(new Rectangle(0,0, width*numBuffers, height), 0xff000000);
     }
 
@@ -83,6 +86,7 @@ package Src.Gfx
     public function drawSprite(spr:SpriteDef, x:int, y:int,
                                 xFrame:int=0, yFrame:int=0):void
     {
+      x += xoffset;
       var rect:Rectangle = spr.getRect(xFrame, yFrame);
 
       for(var i:int = 0; i<numBuffers; i++)
