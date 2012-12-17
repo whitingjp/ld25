@@ -61,7 +61,6 @@ package Src
       tileMap = new TileMap(this);      
       frontEnd = new Frontend(this);
 
-      tileMap.unpack(new Level1Class as ByteArray);
       gameOverTimer = 0;
     }
 
@@ -220,9 +219,10 @@ package Src
       {
         renderer.init( 320, 240, 2, 4);
         score = 0;
+        tileMap.unpack(new Level1Class as ByteArray);
       }
       else
-      {
+      {        
         renderer.init( 40, 30, 16, 1);
       }
       main.reAddBuffer();
